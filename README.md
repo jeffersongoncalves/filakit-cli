@@ -65,6 +65,7 @@ filakit new my-app --kit=jeffersongoncalves/filakitv5
 
 | Kit | Package |
 |-----|--------|
+| Base v5 | `filakitphp/basev5` |
 | Filakit v5 | `jeffersongoncalves/filakitv5` |
 | Nativekit v5 | `jeffersongoncalves/nativekitv5` |
 | Mobilekit v5 | `jeffersongoncalves/mobilekitv5` |

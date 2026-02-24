@@ -2,6 +2,10 @@
 
 return [
     [
+        'title' => 'Base v5',
+        'package' => 'filakitphp/basev5',
+    ],
+    [
         'title' => 'Filakit v5',
         'package' => 'jeffersongoncalves/filakitv5',
     ],
