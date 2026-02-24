@@ -22,6 +22,10 @@ return [
         'package' => 'jeffersongoncalves/servicedeskkitv5',
     ],
     [
+        'title' => 'Base v4',
+        'package' => 'filakitphp/basev4',
+    ],
+    [
         'title' => 'Filakit v4',
         'package' => 'jeffersongoncalves/filakitv4',
     ],
@@ -44,6 +48,10 @@ return [
     [
         'title' => 'MFAkit v4',
         'package' => 'jeffersongoncalves/mfakitv4',
+    ],
+    [
+        'title' => 'Base v3',
+        'package' => 'filakitphp/basev3',
     ],
     [
         'title' => 'Filakit v3',

@@ -75,6 +75,7 @@ filakit new my-app --kit=jeffersongoncalves/filakitv5
 
 | Kit | Package |
 |-----|--------|
+| Base v4 | `filakitphp/basev4` |
 | Filakit v4 | `jeffersongoncalves/filakitv4` |
 | Nativekit v4 | `jeffersongoncalves/nativekitv4` |
 | Mobilekit v4 | `jeffersongoncalves/mobilekitv4` |
@@ -86,6 +87,7 @@ filakit new my-app --kit=jeffersongoncalves/filakitv5
 
 | Kit | Package |
 |-----|--------|
+| Base v3 | `filakitphp/basev3` |
 | Filakit v3 | `jeffersongoncalves/filakit` |
 | Nativekit v3 | `jeffersongoncalves/nativekit` |
 | Mobilekit v3 | `jeffersongoncalves/mobilekit` |
