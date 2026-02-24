@@ -20,6 +20,8 @@ jobs:
           php-version: 8.4
           coverage: none
 
+      - run: composer install --prefer-dist --no-interaction --no-progress --no-scripts --ansi
+
       - name: Fetch and compile starter kits
         run: |
           curl -sL https://raw.githubusercontent.com/jeffersongoncalves/jeffersongoncalves/refs/heads/master/plugins.json -o /tmp/plugins.json
@@ -31,14 +33,14 @@ jobs:
           $json = json_decode(file_get_contents("/tmp/plugins.json"), true);
           $kits = $json["startkit"] ?? [];
 
-          // --- Generate config/starterkits.php ---
+          // --- Generate config/starterkits.php with single quotes ---
           $lines = ["<?php", "", "return ["];
           foreach ($kits as $kit) {
-              $title = addslashes($kit["title"]);
-              $package = addslashes($kit["package"]);
+              $title = str_replace("'"'"'", "\\'"'"'", $kit["title"]);
+              $package = str_replace("'"'"'", "\\'"'"'", $kit["package"]);
               $lines[] = "    [";
-              $lines[] = "        \"title\" => \"$title\",";
-              $lines[] = "        \"package\" => \"$package\",";
+              $lines[] = "        '"'"'title'"'"' => '"'"'$title'"'"',";
+              $lines[] = "        '"'"'package'"'"' => '"'"'$package'"'"',";
               $lines[] = "    ],";
           }
           $lines[] = "];";
@@ -77,6 +79,9 @@ jobs:
           echo "Updated README.md starter kits section\n";
           '
 
+      - name: Run Pint to fix code style
+        run: ./vendor/bin/pint config/starterkits.php
+
       - name: Check for changes
         id: changes
         run: |
@@ -110,8 +115,18 @@ jobs:
           CURRENT="${{ steps.tag.outputs.tag }}"
           CURRENT="${CURRENT#v}"
           IFS='.' read -r MAJOR MINOR PATCH <<< "$CURRENT"
-          PATCH=$((PATCH + 1))
-          echo "next=v${MAJOR}.${MINOR}.${PATCH}" >> "$GITHUB_OUTPUT"
+          NEXT_PATCH=$((PATCH + 1))
+          NEXT="v${MAJOR}.${MINOR}.${NEXT_PATCH}"
+
+          # Ensure the version doesn't already exist
+          while gh release view "$NEXT" &>/dev/null; do
+            NEXT_PATCH=$((NEXT_PATCH + 1))
+            NEXT="v${MAJOR}.${MINOR}.${NEXT_PATCH}"
+          done
+
+          echo "next=$NEXT" >> "$GITHUB_OUTPUT"
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Create Release
         if: steps.changes.outputs.changed == 'true'
