@@ -58,6 +58,7 @@ filakit new my-app
 filakit new my-app --kit=jeffersongoncalves/filakitv5
 ```
 
+<!-- STARTERKITS:START -->
 ## Available Starter Kits
 
 ### Filament v5
@@ -89,6 +90,7 @@ filakit new my-app --kit=jeffersongoncalves/filakitv5
 | Nativekit v3 | `jeffersongoncalves/nativekit` |
 | Mobilekit v3 | `jeffersongoncalves/mobilekit` |
 | Teamkit v3 | `jeffersongoncalves/teamkit` |
+<!-- STARTERKITS:END -->
 
 ## How It Works
 

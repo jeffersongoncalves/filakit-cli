@@ -31,6 +31,7 @@ jobs:
           $json = json_decode(file_get_contents("/tmp/plugins.json"), true);
           $kits = $json["startkit"] ?? [];
 
+          // --- Generate config/starterkits.php ---
           $lines = ["<?php", "", "return ["];
           foreach ($kits as $kit) {
               $title = addslashes($kit["title"]);
@@ -42,21 +43,50 @@ jobs:
           }
           $lines[] = "];";
           $lines[] = "";
-
           file_put_contents("config/starterkits.php", implode("\n", $lines));
           echo "Compiled " . count($kits) . " starter kits into config/starterkits.php\n";
+
+          // --- Generate README section ---
+          $grouped = [];
+          foreach ($kits as $kit) {
+              if (preg_match("/v(\d+)$/i", $kit["package"], $m)) {
+                  $version = "v" . $m[1];
+              } elseif (preg_match("/v(\d+)/i", $kit["title"], $m)) {
+                  $version = "v" . $m[1];
+              } else {
+                  $version = "Other";
+              }
+              $grouped[$version][] = $kit;
+          }
+
+          $md = "## Available Starter Kits\n";
+          foreach ($grouped as $version => $items) {
+              $md .= "\n### Filament {$version}\n\n";
+              $md .= "| Kit | Package |\n";
+              $md .= "|-----|--------|\n";
+              foreach ($items as $kit) {
+                  $md .= "| {$kit["title"]} | \x60{$kit["package"]}\x60 |\n";
+              }
+          }
+
+          $readme = file_get_contents("README.md");
+          $pattern = "/(<!-- STARTERKITS:START -->).*(<!-- STARTERKITS:END -->)/s";
+          $replacement = "<!-- STARTERKITS:START -->\n" . trim($md) . "\n<!-- STARTERKITS:END -->";
+          $readme = preg_replace($pattern, $replacement, $readme);
+          file_put_contents("README.md", $readme);
+          echo "Updated README.md starter kits section\n";
           '
 
       - name: Check for changes
         id: changes
         run: |
-          if git diff --quiet config/starterkits.php; then
+          if git diff --quiet config/starterkits.php README.md; then
             echo "changed=false" >> "$GITHUB_OUTPUT"
             echo "No changes detected."
           else
             echo "changed=true" >> "$GITHUB_OUTPUT"
             echo "Changes detected!"
-            git diff config/starterkits.php
+            git diff --stat config/starterkits.php README.md
           fi
 
       - name: Commit changes
@@ -64,7 +94,7 @@ jobs:
         uses: stefanzweifel/git-auto-commit-action@v5
         with:
           commit_message: "Update starter kits list from plugins.json"
-          file_pattern: config/starterkits.php
+          file_pattern: "config/starterkits.php README.md"
 
       - name: Get latest tag
         if: steps.changes.outputs.changed == 'true'
