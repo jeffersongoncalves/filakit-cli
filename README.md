@@ -64,7 +64,7 @@ filakit new my-app --kit=jeffersongoncalves/filakitv5
 ### Filament v5
 
 | Kit | Package |
-|-----|---------|
+|-----|--------|
 | Filakit v5 | `jeffersongoncalves/filakitv5` |
 | Nativekit v5 | `jeffersongoncalves/nativekitv5` |
 | Mobilekit v5 | `jeffersongoncalves/mobilekitv5` |
@@ -74,7 +74,7 @@ filakit new my-app --kit=jeffersongoncalves/filakitv5
 ### Filament v4
 
 | Kit | Package |
-|-----|---------|
+|-----|--------|
 | Filakit v4 | `jeffersongoncalves/filakitv4` |
 | Nativekit v4 | `jeffersongoncalves/nativekitv4` |
 | Mobilekit v4 | `jeffersongoncalves/mobilekitv4` |
@@ -85,7 +85,7 @@ filakit new my-app --kit=jeffersongoncalves/filakitv5
 ### Filament v3
 
 | Kit | Package |
-|-----|---------|
+|-----|--------|
 | Filakit v3 | `jeffersongoncalves/filakit` |
 | Nativekit v3 | `jeffersongoncalves/nativekit` |
 | Mobilekit v3 | `jeffersongoncalves/mobilekit` |
