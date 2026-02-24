@@ -61,8 +61,4 @@ return [
         'title' => 'Teamkit v3',
         'package' => 'jeffersongoncalves/teamkit',
     ],
-    [
-        'title' => 'Testkit v5',
-        'package' => 'jeffersongoncalves/testkitv5',
-    ],
 ];
