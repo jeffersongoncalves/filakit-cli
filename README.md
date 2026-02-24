@@ -70,6 +70,7 @@ filakit new my-app --kit=jeffersongoncalves/filakitv5
 | Mobilekit v5 | `jeffersongoncalves/mobilekitv5` |
 | Teamkit v5 | `jeffersongoncalves/teamkitv5` |
 | Service Desk Kit v5 | `jeffersongoncalves/servicedeskkitv5` |
+| Testkit v5 | `jeffersongoncalves/testkitv5` |
 
 ### Filament v4
 
