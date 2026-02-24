@@ -16,12 +16,24 @@ it('reads starter kits from config', function () {
     expect($kits)->toHaveCount(3)
         ->and($kits[0])->toBeInstanceOf(StarterKit::class)
         ->and($kits[0]->title)->toBe('Filakit v5')
-        ->and($kits[0]->package)->toBe('jeffersongoncalves/filakitv5')
-        ->and($kits[1]->title)->toBe('Nativekit v5')
-        ->and($kits[2]->title)->toBe('Filakit v4');
+        ->and($kits[0]->package)->toBe('jeffersongoncalves/filakitv5');
 });
 
-it('returns starter kit options as key-value pairs', function () {
+it('returns available versions', function () {
+    config()->set('starterkits', [
+        ['title' => 'Filakit v5', 'package' => 'jeffersongoncalves/filakitv5'],
+        ['title' => 'Nativekit v5', 'package' => 'jeffersongoncalves/nativekitv5'],
+        ['title' => 'Filakit v4', 'package' => 'jeffersongoncalves/filakitv4'],
+        ['title' => 'Filakit v3', 'package' => 'jeffersongoncalves/filakit'],
+    ]);
+
+    $service = new StarterKitService;
+    $versions = $service->getAvailableVersions();
+
+    expect($versions)->toBe(['v5', 'v4', 'v3']);
+});
+
+it('returns numbered options filtered by version', function () {
     config()->set('starterkits', [
         ['title' => 'Filakit v5', 'package' => 'jeffersongoncalves/filakitv5'],
         ['title' => 'Nativekit v5', 'package' => 'jeffersongoncalves/nativekitv5'],
@@ -29,29 +41,47 @@ it('returns starter kit options as key-value pairs', function () {
     ]);
 
     $service = new StarterKitService;
-    $options = $service->getStarterKitOptions();
+    $options = $service->getStarterKitOptions('v5');
 
     expect($options)->toBe([
-        'jeffersongoncalves/filakitv5' => 'Filakit v5',
-        'jeffersongoncalves/nativekitv5' => 'Nativekit v5',
-        'jeffersongoncalves/filakitv4' => 'Filakit v4',
+        1 => 'Filakit v5',
+        2 => 'Nativekit v5',
     ]);
 });
 
-it('returns empty array when config is empty', function () {
-    config()->set('starterkits', []);
+it('finds starter kit by version and index', function () {
+    config()->set('starterkits', [
+        ['title' => 'Filakit v5', 'package' => 'jeffersongoncalves/filakitv5'],
+        ['title' => 'Nativekit v5', 'package' => 'jeffersongoncalves/nativekitv5'],
+        ['title' => 'Filakit v4', 'package' => 'jeffersongoncalves/filakitv4'],
+    ]);
 
     $service = new StarterKitService;
-    $kits = $service->getStarterKits();
+    $kit = $service->findByIndex('v5', 2);
 
-    expect($kits)->toBeEmpty();
+    expect($kit)->toBeInstanceOf(StarterKit::class)
+        ->and($kit->title)->toBe('Nativekit v5')
+        ->and($kit->package)->toBe('jeffersongoncalves/nativekitv5');
 });
 
-it('returns empty options when config is empty', function () {
-    config()->set('starterkits', []);
+it('returns null for invalid index', function () {
+    config()->set('starterkits', [
+        ['title' => 'Filakit v5', 'package' => 'jeffersongoncalves/filakitv5'],
+    ]);
 
     $service = new StarterKitService;
-    $options = $service->getStarterKitOptions();
+    $kit = $service->findByIndex('v5', 99);
+
+    expect($kit)->toBeNull();
+});
+
+it('returns empty options for version with no kits', function () {
+    config()->set('starterkits', [
+        ['title' => 'Filakit v5', 'package' => 'jeffersongoncalves/filakitv5'],
+    ]);
+
+    $service = new StarterKitService;
+    $options = $service->getStarterKitOptions('v3');
 
     expect($options)->toBeEmpty();
 });

@@ -1,5 +1,6 @@
 <?php
 
+use App\DTOs\StarterKit;
 use App\Services\InstallerService;
 use App\Services\StarterKitService;
 use Laravel\Prompts\Prompt;
@@ -8,14 +9,19 @@ beforeEach(function () {
     Prompt::fallbackWhen(true);
 });
 
-it('displays available starter kits and creates app', function () {
+it('asks for version then shows numbered starter kits', function () {
     $service = Mockery::mock(StarterKitService::class);
+    $service->shouldReceive('getAvailableVersions')
+        ->once()
+        ->andReturn(['v5', 'v4', 'v3']);
     $service->shouldReceive('getStarterKitOptions')
         ->once()
-        ->andReturn([
-            'jeffersongoncalves/filakitv5' => 'Filakit v5',
-            'jeffersongoncalves/nativekitv5' => 'Nativekit v5',
-        ]);
+        ->with('v5')
+        ->andReturn([1 => 'Filakit v5', 2 => 'Nativekit v5']);
+    $service->shouldReceive('findByIndex')
+        ->once()
+        ->with('v5', 1)
+        ->andReturn(new StarterKit('Filakit v5', 'jeffersongoncalves/filakitv5'));
     $this->app->instance(StarterKitService::class, $service);
 
     $installer = Mockery::mock(InstallerService::class);
@@ -26,14 +32,43 @@ it('displays available starter kits and creates app', function () {
     $this->app->instance(InstallerService::class, $installer);
 
     $this->artisan('new', ['name' => 'test-app'])
-        ->expectsQuestion('Which starter kit would you like to use?', 'jeffersongoncalves/filakitv5')
+        ->expectsQuestion('Which Filament version do you want to use?', 'v5')
+        ->expectsQuestion('Which starter kit would you like to use?', 1)
         ->expectsOutputToContain('test-app')
         ->assertExitCode(0);
 });
 
-it('accepts kit option to skip interactive selection', function () {
+it('accepts --filament option to skip version selection', function () {
     $service = Mockery::mock(StarterKitService::class);
-    $service->shouldNotReceive('getStarterKitOptions');
+    $service->shouldReceive('getAvailableVersions')
+        ->once()
+        ->andReturn(['v5', 'v4']);
+    $service->shouldReceive('getStarterKitOptions')
+        ->once()
+        ->with('v4')
+        ->andReturn([1 => 'Filakit v4', 2 => 'Nativekit v4']);
+    $service->shouldReceive('findByIndex')
+        ->once()
+        ->with('v4', 2)
+        ->andReturn(new StarterKit('Nativekit v4', 'jeffersongoncalves/nativekitv4'));
+    $this->app->instance(StarterKitService::class, $service);
+
+    $installer = Mockery::mock(InstallerService::class);
+    $installer->shouldReceive('run')
+        ->once()
+        ->with('test-app', 'jeffersongoncalves/nativekitv4', Mockery::type('callable'))
+        ->andReturn(true);
+    $this->app->instance(InstallerService::class, $installer);
+
+    $this->artisan('new', ['name' => 'test-app', '--filament' => 'v4'])
+        ->expectsQuestion('Which starter kit would you like to use?', 2)
+        ->expectsOutputToContain('test-app')
+        ->assertExitCode(0);
+});
+
+it('accepts --kit option to skip all selection', function () {
+    $service = Mockery::mock(StarterKitService::class);
+    $service->shouldNotReceive('getAvailableVersions');
     $this->app->instance(StarterKitService::class, $service);
 
     $installer = Mockery::mock(InstallerService::class);
@@ -53,11 +88,17 @@ it('accepts kit option to skip interactive selection', function () {
 
 it('prompts for app name when not provided', function () {
     $service = Mockery::mock(StarterKitService::class);
+    $service->shouldReceive('getAvailableVersions')
+        ->once()
+        ->andReturn(['v5']);
     $service->shouldReceive('getStarterKitOptions')
         ->once()
-        ->andReturn([
-            'jeffersongoncalves/filakitv5' => 'Filakit v5',
-        ]);
+        ->with('v5')
+        ->andReturn([1 => 'Filakit v5']);
+    $service->shouldReceive('findByIndex')
+        ->once()
+        ->with('v5', 1)
+        ->andReturn(new StarterKit('Filakit v5', 'jeffersongoncalves/filakitv5'));
     $this->app->instance(StarterKitService::class, $service);
 
     $installer = Mockery::mock(InstallerService::class);
@@ -69,14 +110,15 @@ it('prompts for app name when not provided', function () {
 
     $this->artisan('new')
         ->expectsQuestion('What is the name of your application?', 'my-app')
-        ->expectsQuestion('Which starter kit would you like to use?', 'jeffersongoncalves/filakitv5')
+        ->expectsQuestion('Which Filament version do you want to use?', 'v5')
+        ->expectsQuestion('Which starter kit would you like to use?', 1)
         ->expectsOutputToContain('my-app')
         ->assertExitCode(0);
 });
 
 it('fails when no starter kits are available', function () {
     $service = Mockery::mock(StarterKitService::class);
-    $service->shouldReceive('getStarterKitOptions')
+    $service->shouldReceive('getAvailableVersions')
         ->once()
         ->andReturn([]);
     $this->app->instance(StarterKitService::class, $service);

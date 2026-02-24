@@ -20,17 +20,52 @@ class StarterKitService
     }
 
     /**
-     * @return array<string, string>
+     * @return string[]
      */
-    public function getStarterKitOptions(): array
+    public function getAvailableVersions(): array
     {
-        $kits = $this->getStarterKits();
+        $versions = [];
+
+        foreach ($this->getStarterKits() as $kit) {
+            $version = $kit->detectVersion();
+            if ($version && ! in_array($version, $versions, true)) {
+                $versions[] = $version;
+            }
+        }
+
+        return $versions;
+    }
+
+    /**
+     * @return array<int, string>
+     */
+    public function getStarterKitOptions(string $version): array
+    {
+        $kits = $this->getStarterKitsByVersion($version);
 
         $options = [];
-        foreach ($kits as $kit) {
-            $options[$kit->package] = $kit->title;
+        foreach ($kits as $index => $kit) {
+            $options[$index + 1] = $kit->title;
         }
 
         return $options;
+    }
+
+    /**
+     * @return array<int, StarterKit>
+     */
+    public function getStarterKitsByVersion(string $version): array
+    {
+        return array_values(array_filter(
+            $this->getStarterKits(),
+            fn (StarterKit $kit) => $kit->detectVersion() === $version
+        ));
+    }
+
+    public function findByIndex(string $version, int $index): ?StarterKit
+    {
+        $kits = $this->getStarterKitsByVersion($version);
+
+        return $kits[$index - 1] ?? null;
     }
 }

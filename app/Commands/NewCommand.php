@@ -13,7 +13,8 @@ class NewCommand extends Command
 {
     protected $signature = 'new
         {name? : The name of the application}
-        {--kit= : The starter kit package to use}';
+        {--kit= : The starter kit package to use}
+        {--filament= : The Filament version (v3, v4, v5)}';
 
     protected $description = 'Create a new Laravel application using a Filakit starter kit';
 
@@ -27,18 +28,39 @@ class NewCommand extends Command
         $kitPackage = $this->option('kit');
 
         if (! $kitPackage) {
-            $options = $starterKitService->getStarterKitOptions();
+            $versions = $starterKitService->getAvailableVersions();
 
-            if (empty($options)) {
+            if (empty($versions)) {
                 $this->components->error('No starter kits available.');
 
                 return self::FAILURE;
             }
 
-            $kitPackage = select(
+            $versionOptions = [];
+            foreach ($versions as $v) {
+                $versionOptions[$v] = 'Filament '.$v;
+            }
+
+            $version = $this->option('filament') ?? select(
+                label: 'Which Filament version do you want to use?',
+                options: $versionOptions,
+            );
+
+            $options = $starterKitService->getStarterKitOptions($version);
+
+            if (empty($options)) {
+                $this->components->error("No starter kits available for {$version}.");
+
+                return self::FAILURE;
+            }
+
+            $selected = select(
                 label: 'Which starter kit would you like to use?',
                 options: $options,
             );
+
+            $kit = $starterKitService->findByIndex($version, (int) $selected);
+            $kitPackage = $kit->package;
         }
 
         $this->newLine();

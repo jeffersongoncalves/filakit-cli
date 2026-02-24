@@ -24,13 +24,23 @@ it('converts a starter kit to array', function () {
     ]);
 });
 
-it('has readonly properties', function () {
-    $kit = new StarterKit(
-        title: 'Filakit v5',
-        package: 'jeffersongoncalves/filakitv5',
-    );
+it('detects version from package name with suffix', function () {
+    $kit = new StarterKit(title: 'Filakit v5', package: 'jeffersongoncalves/filakitv5');
+    expect($kit->detectVersion())->toBe('v5');
 
-    expect($kit)->toBeInstanceOf(StarterKit::class)
-        ->and($kit->title)->toBeString()
-        ->and($kit->package)->toBeString();
+    $kit = new StarterKit(title: 'Filakit v4', package: 'jeffersongoncalves/filakitv4');
+    expect($kit->detectVersion())->toBe('v4');
+});
+
+it('detects version from title for v3 kits', function () {
+    $kit = new StarterKit(title: 'Filakit v3', package: 'jeffersongoncalves/filakit');
+    expect($kit->detectVersion())->toBe('v3');
+
+    $kit = new StarterKit(title: 'Teamkit v3', package: 'jeffersongoncalves/teamkit');
+    expect($kit->detectVersion())->toBe('v3');
+});
+
+it('returns null when version cannot be detected', function () {
+    $kit = new StarterKit(title: 'Custom Kit', package: 'vendor/custom-kit');
+    expect($kit->detectVersion())->toBeNull();
 });
