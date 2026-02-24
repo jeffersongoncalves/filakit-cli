@@ -1,0 +1,10 @@
+/vendor
+/.idea
+/.vscode
+/.vagrant
+/.ai
+/.claude
+.phpunit.result.cache
+.phpunit.cache
+/test-app
+/my-app

@@ -1,0 +1,19 @@
+{
+    "filament": [],
+    "laravel": [],
+    "startkit": [
+        {
+            "title": "Filakit v5",
+            "package": "jeffersongoncalves/filakitv5"
+        },
+        {
+            "title": "Nativekit v5",
+            "package": "jeffersongoncalves/nativekitv5"
+        },
+        {
+            "title": "Filakit v4",
+            "package": "jeffersongoncalves/filakitv4"
+        }
+    ],
+    "cli": []
+}

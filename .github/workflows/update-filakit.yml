@@ -1,0 +1,53 @@
+name: Update Starter Kits
+
+on:
+  repository_dispatch:
+    types: [update-starterkits]
+  workflow_dispatch:
+
+permissions: write-all
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+
+      - name: Fetch latest plugins.json
+        run: |
+          curl -sL https://raw.githubusercontent.com/jeffersongoncalves/jeffersongoncalves/refs/heads/master/plugins.json -o /tmp/plugins.json
+          echo "Starter kits found:"
+          jq '.startkit[] | .title' /tmp/plugins.json
+
+      - name: Check for changes
+        id: check
+        run: |
+          CURRENT_HASH=$(curl -sL https://raw.githubusercontent.com/jeffersongoncalves/jeffersongoncalves/refs/heads/master/plugins.json | sha256sum | cut -d' ' -f1)
+          echo "hash=$CURRENT_HASH" >> "$GITHUB_OUTPUT"
+
+      - name: Get latest tag
+        id: tag
+        uses: "WyriHaximus/github-action-get-previous-tag@v2"
+        with:
+          fallback: "0.0.0"
+
+      - name: Calculate next version
+        id: version
+        run: |
+          CURRENT="${{ steps.tag.outputs.tag }}"
+          CURRENT="${CURRENT#v}"
+          IFS='.' read -r MAJOR MINOR PATCH <<< "$CURRENT"
+          PATCH=$((PATCH + 1))
+          echo "next=v${MAJOR}.${MINOR}.${PATCH}" >> "$GITHUB_OUTPUT"
+
+      - name: Create Release
+        if: success()
+        run: |
+          gh release create ${{ steps.version.outputs.next }} \
+            --title "${{ steps.version.outputs.next }}" \
+            --notes "Automated release: starter kits updated." \
+            --target main
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
