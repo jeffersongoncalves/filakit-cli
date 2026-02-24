@@ -1,3 +1,9 @@
+<div class="filament-hidden">
+
+![Filakit CLI](https://raw.githubusercontent.com/jeffersongoncalves/filakit-cli/main/art/jeffersongoncalves-filakit-cli.png)
+
+</div>
+
 # Filakit CLI
 
 <p align="center">
