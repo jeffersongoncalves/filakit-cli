@@ -2,26 +2,16 @@
 
 use App\DTOs\StarterKit;
 use App\Services\StarterKitService;
-use GuzzleHttp\Client;
-use GuzzleHttp\Handler\MockHandler;
-use GuzzleHttp\HandlerStack;
-use GuzzleHttp\Psr7\Response;
 
-function createMockClient(Response ...$responses): Client
-{
-    $mock = new MockHandler($responses);
-    $handlerStack = HandlerStack::create($mock);
+it('reads starter kits from config', function () {
+    config()->set('starterkits', [
+        ['title' => 'Filakit v5', 'package' => 'jeffersongoncalves/filakitv5'],
+        ['title' => 'Nativekit v5', 'package' => 'jeffersongoncalves/nativekitv5'],
+        ['title' => 'Filakit v4', 'package' => 'jeffersongoncalves/filakitv4'],
+    ]);
 
-    return new Client(['handler' => $handlerStack]);
-}
-
-it('fetches starter kits from remote JSON', function () {
-    $json = file_get_contents(base_path('tests/Fixtures/plugins.json'));
-
-    $client = createMockClient(new Response(200, [], $json));
-    $service = new StarterKitService($client);
-
-    $kits = $service->fetchStarterKits();
+    $service = new StarterKitService;
+    $kits = $service->getStarterKits();
 
     expect($kits)->toHaveCount(3)
         ->and($kits[0])->toBeInstanceOf(StarterKit::class)
@@ -32,11 +22,13 @@ it('fetches starter kits from remote JSON', function () {
 });
 
 it('returns starter kit options as key-value pairs', function () {
-    $json = file_get_contents(base_path('tests/Fixtures/plugins.json'));
+    config()->set('starterkits', [
+        ['title' => 'Filakit v5', 'package' => 'jeffersongoncalves/filakitv5'],
+        ['title' => 'Nativekit v5', 'package' => 'jeffersongoncalves/nativekitv5'],
+        ['title' => 'Filakit v4', 'package' => 'jeffersongoncalves/filakitv4'],
+    ]);
 
-    $client = createMockClient(new Response(200, [], $json));
-    $service = new StarterKitService($client);
-
+    $service = new StarterKitService;
     $options = $service->getStarterKitOptions();
 
     expect($options)->toBe([
@@ -46,16 +38,30 @@ it('returns starter kit options as key-value pairs', function () {
     ]);
 });
 
-it('throws exception for invalid JSON structure', function () {
-    $client = createMockClient(new Response(200, [], '{"invalid": true}'));
-    $service = new StarterKitService($client);
+it('returns empty array when config is empty', function () {
+    config()->set('starterkits', []);
 
-    $service->fetchStarterKits();
-})->throws(RuntimeException::class, 'Invalid JSON structure: missing "startkit" key.');
+    $service = new StarterKitService;
+    $kits = $service->getStarterKits();
 
-it('throws exception on HTTP error', function () {
-    $client = createMockClient(new Response(500, [], 'Server Error'));
-    $service = new StarterKitService($client);
+    expect($kits)->toBeEmpty();
+});
 
-    $service->fetchStarterKits();
-})->throws(RuntimeException::class, 'Failed to fetch starter kits');
+it('returns empty options when config is empty', function () {
+    config()->set('starterkits', []);
+
+    $service = new StarterKitService;
+    $options = $service->getStarterKitOptions();
+
+    expect($options)->toBeEmpty();
+});
+
+it('loads from default config file', function () {
+    $service = new StarterKitService;
+    $kits = $service->getStarterKits();
+
+    expect($kits)->toBeArray()
+        ->and($kits)->not->toBeEmpty()
+        ->and($kits[0])->toBeInstanceOf(StarterKit::class)
+        ->and($kits[0]->title)->toBe('Filakit v5');
+});

@@ -15,25 +15,66 @@ jobs:
         with:
           ref: main
 
-      - name: Fetch latest plugins.json
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: 8.4
+          coverage: none
+
+      - name: Fetch and compile starter kits
         run: |
           curl -sL https://raw.githubusercontent.com/jeffersongoncalves/jeffersongoncalves/refs/heads/master/plugins.json -o /tmp/plugins.json
+
           echo "Starter kits found:"
           jq '.startkit[] | .title' /tmp/plugins.json
 
+          php -r '
+          $json = json_decode(file_get_contents("/tmp/plugins.json"), true);
+          $kits = $json["startkit"] ?? [];
+
+          $lines = ["<?php", "", "return ["];
+          foreach ($kits as $kit) {
+              $title = addslashes($kit["title"]);
+              $package = addslashes($kit["package"]);
+              $lines[] = "    [";
+              $lines[] = "        \"title\" => \"$title\",";
+              $lines[] = "        \"package\" => \"$package\",";
+              $lines[] = "    ],";
+          }
+          $lines[] = "];";
+          $lines[] = "";
+
+          file_put_contents("config/starterkits.php", implode("\n", $lines));
+          echo "Compiled " . count($kits) . " starter kits into config/starterkits.php\n";
+          '
+
       - name: Check for changes
-        id: check
+        id: changes
         run: |
-          CURRENT_HASH=$(curl -sL https://raw.githubusercontent.com/jeffersongoncalves/jeffersongoncalves/refs/heads/master/plugins.json | sha256sum | cut -d' ' -f1)
-          echo "hash=$CURRENT_HASH" >> "$GITHUB_OUTPUT"
+          if git diff --quiet config/starterkits.php; then
+            echo "changed=false" >> "$GITHUB_OUTPUT"
+            echo "No changes detected."
+          else
+            echo "changed=true" >> "$GITHUB_OUTPUT"
+            echo "Changes detected!"
+            git diff config/starterkits.php
+          fi
+
+      - name: Commit changes
+        if: steps.changes.outputs.changed == 'true'
+        uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+          commit_message: "Update starter kits list from plugins.json"
+          file_pattern: config/starterkits.php
 
       - name: Get latest tag
+        if: steps.changes.outputs.changed == 'true'
         id: tag
         uses: "WyriHaximus/github-action-get-previous-tag@v2"
         with:
           fallback: "0.0.0"
 
       - name: Calculate next version
+        if: steps.changes.outputs.changed == 'true'
         id: version
         run: |
           CURRENT="${{ steps.tag.outputs.tag }}"
@@ -43,11 +84,11 @@ jobs:
           echo "next=v${MAJOR}.${MINOR}.${PATCH}" >> "$GITHUB_OUTPUT"
 
       - name: Create Release
-        if: success()
+        if: steps.changes.outputs.changed == 'true'
         run: |
           gh release create ${{ steps.version.outputs.next }} \
             --title "${{ steps.version.outputs.next }}" \
-            --notes "Automated release: starter kits updated." \
+            --notes "Automated release: starter kits list updated." \
             --target main
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

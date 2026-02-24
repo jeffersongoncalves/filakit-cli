@@ -27,11 +27,7 @@ class NewCommand extends Command
         $kitPackage = $this->option('kit');
 
         if (! $kitPackage) {
-            $this->components->task('Fetching available starter kits', function () use ($starterKitService, &$options) {
-                $options = $starterKitService->getStarterKitOptions();
-
-                return true;
-            });
+            $options = $starterKitService->getStarterKitOptions();
 
             if (empty($options)) {
                 $this->components->error('No starter kits available.');
