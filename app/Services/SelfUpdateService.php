@@ -145,12 +145,17 @@ class SelfUpdateService
 
     private function isValidPhar(string $path): bool
     {
-        try {
-            new \Phar($path);
-
-            return true;
-        } catch (\Throwable) {
+        $fileSize = @filesize($path);
+        if ($fileSize === false || $fileSize < 100) {
             return false;
         }
+
+        $header = @file_get_contents($path, false, null, 0, 50);
+        if ($header === false) {
+            return false;
+        }
+
+        // PHAR stubs typically start with #!/usr/bin/env php or <?php
+        return str_contains($header, '<?php') || str_contains($header, '#!/');
     }
 }
