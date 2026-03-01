@@ -27,11 +27,12 @@ jobs:
           curl -sL https://raw.githubusercontent.com/jeffersongoncalves/jeffersongoncalves/refs/heads/master/plugins.json -o /tmp/plugins.json
 
           echo "Starter kits found:"
-          jq '.startkit[] | .title' /tmp/plugins.json
+          jq '[.startkit.featured[], .startkit.legacy[]] | .[].title' /tmp/plugins.json
 
           php -r '
           $json = json_decode(file_get_contents("/tmp/plugins.json"), true);
-          $kits = $json["startkit"] ?? [];
+          $startkit = $json["startkit"] ?? [];
+          $kits = array_merge($startkit["featured"] ?? [], $startkit["legacy"] ?? []);
 
           // --- Generate config/starterkits.php with single quotes ---
           $lines = ["<?php", "", "return ["];
