@@ -7,7 +7,7 @@ use LaravelZero\Framework\Commands\Command;
 
 class ListStarterKitsCommand extends Command
 {
-    protected $signature = 'list:starterkits
+    protected $signature = 'kits
         {--filament= : Filter by Filament version (v3, v4, v5)}';
 
     protected $description = 'List all available Filakit starter kits';

@@ -21,7 +21,7 @@ it('lists all starter kits grouped by version', function () {
         ]);
     $this->app->instance(StarterKitService::class, $service);
 
-    $this->artisan('list:starterkits')
+    $this->artisan('kits')
         ->expectsOutputToContain('Filament v5')
         ->expectsOutputToContain('filakitphp/basev5')
         ->expectsOutputToContain('Filament v4')
@@ -39,7 +39,7 @@ it('filters starter kits by version', function () {
         ]);
     $this->app->instance(StarterKitService::class, $service);
 
-    $this->artisan('list:starterkits', ['--filament' => 'v5'])
+    $this->artisan('kits', ['--filament' => 'v5'])
         ->expectsOutputToContain('Filament v5')
         ->expectsOutputToContain('filakitphp/basev5')
         ->expectsOutputToContain('jeffersongoncalves/filakitv5')
@@ -53,7 +53,7 @@ it('shows error for version with no kits', function () {
         ->andReturn([]);
     $this->app->instance(StarterKitService::class, $service);
 
-    $this->artisan('list:starterkits', ['--filament' => 'v2'])
+    $this->artisan('kits', ['--filament' => 'v2'])
         ->expectsOutputToContain('No starter kits available for v2')
         ->assertExitCode(1);
 });
@@ -65,7 +65,7 @@ it('shows error when no starter kits exist', function () {
         ->andReturn([]);
     $this->app->instance(StarterKitService::class, $service);
 
-    $this->artisan('list:starterkits')
+    $this->artisan('kits')
         ->expectsOutputToContain('No starter kits available')
         ->assertExitCode(1);
 });
