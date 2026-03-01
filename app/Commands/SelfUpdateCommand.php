@@ -64,6 +64,12 @@ class SelfUpdateCommand extends Command
         $this->newLine();
         $this->components->info("Successfully updated to <comment>{$latestTag}</comment>.");
 
+        // Exit immediately when running as PHAR to prevent the framework
+        // shutdown from loading classes from the replaced file (zlib errors).
+        if (\Phar::running(false) !== '') {
+            exit(0);
+        }
+
         return self::SUCCESS;
     }
 }
