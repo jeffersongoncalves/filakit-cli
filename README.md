@@ -64,47 +64,79 @@ filakit new my-app
 filakit new my-app --kit=jeffersongoncalves/filakitv5
 ```
 
+### Additional Options
+
+All options from the Laravel installer are supported and forwarded directly:
+
+| Option                  | Description                                             |
+|-------------------------|---------------------------------------------------------|
+| `--git`                 | Initialize a Git repository                             |
+| `--github[=VISIBILITY]` | Create a GitHub repository (`private` or `public`)      |
+| `--branch=NAME`         | Default branch for the repository                       |
+| `--organization=ORG`    | GitHub organization for the repository                  |
+| `--database=DRIVER`     | Database driver (`mysql`, `sqlite`, `pgsql`, `mariadb`) |
+| `--pest`                | Install Pest testing framework                          |
+| `--npm`                 | Use npm as the package manager                          |
+| `--pnpm`                | Use pnpm as the package manager                         |
+| `--bun`                 | Use Bun as the package manager                          |
+| `--yarn`                | Use Yarn as the package manager                         |
+| `--boost`               | Install Laravel Boost                                   |
+| `-f`, `--force`         | Force install even if the directory already exists      |
+
+**Examples:**
+
+```bash
+# Create with Git + Pest + pnpm
+filakit new my-app --kit=jeffersongoncalves/filakitv5 --git --pest --pnpm
+
+# Create with a GitHub repo under an organization
+filakit new my-app --kit=jeffersongoncalves/filakitv5 --github=private --organization=my-org
+
+# Force overwrite with a specific database
+filakit new my-app --kit=jeffersongoncalves/filakitv5 --database=pgsql --force
+```
+
 <!-- STARTERKITS:START -->
 ## Available Starter Kits
 
 ### Filament v5
 
-| Kit | Package |
-|-----|--------|
-| Base v5 | `filakitphp/basev5` |
-| Filakit v5 | `jeffersongoncalves/filakitv5` |
-| Nativekit v5 | `jeffersongoncalves/nativekitv5` |
-| Mobilekit v5 | `jeffersongoncalves/mobilekitv5` |
-| Teamkit v5 | `jeffersongoncalves/teamkitv5` |
+| Kit                 | Package                               |
+|---------------------|---------------------------------------|
+| Base v5             | `filakitphp/basev5`                   |
+| Filakit v5          | `jeffersongoncalves/filakitv5`        |
+| Nativekit v5        | `jeffersongoncalves/nativekitv5`      |
+| Mobilekit v5        | `jeffersongoncalves/mobilekitv5`      |
+| Teamkit v5          | `jeffersongoncalves/teamkitv5`        |
 | Service Desk Kit v5 | `jeffersongoncalves/servicedeskkitv5` |
-| Help Desk Kit v5 | `jeffersongoncalves/helpdeskkitv5` |
-| Evolutionkit v5 | `jeffersongoncalves/evolutionkitv5` |
+| Help Desk Kit v5    | `jeffersongoncalves/helpdeskkitv5`    |
+| Evolutionkit v5     | `jeffersongoncalves/evolutionkitv5`   |
 
 ### Filament v4
 
-| Kit | Package |
-|-----|--------|
-| Base v4 | `filakitphp/basev4` |
-| Filakit v4 | `jeffersongoncalves/filakitv4` |
-| Nativekit v4 | `jeffersongoncalves/nativekitv4` |
-| Mobilekit v4 | `jeffersongoncalves/mobilekitv4` |
-| Teamkit v4 | `jeffersongoncalves/teamkitv4` |
+| Kit                 | Package                               |
+|---------------------|---------------------------------------|
+| Base v4             | `filakitphp/basev4`                   |
+| Filakit v4          | `jeffersongoncalves/filakitv4`        |
+| Nativekit v4        | `jeffersongoncalves/nativekitv4`      |
+| Mobilekit v4        | `jeffersongoncalves/mobilekitv4`      |
+| Teamkit v4          | `jeffersongoncalves/teamkitv4`        |
 | Service Desk Kit v4 | `jeffersongoncalves/servicedeskkitv4` |
-| Help Desk Kit v4 | `jeffersongoncalves/helpdeskkitv4` |
-| Evolutionkit v4 | `jeffersongoncalves/evolutionkitv4` |
-| MFAkit v4 | `jeffersongoncalves/mfakitv4` |
+| Help Desk Kit v4    | `jeffersongoncalves/helpdeskkitv4`    |
+| Evolutionkit v4     | `jeffersongoncalves/evolutionkitv4`   |
+| MFAkit v4           | `jeffersongoncalves/mfakitv4`         |
 
 ### Filament v3
 
-| Kit | Package |
-|-----|--------|
-| Base v3 | `filakitphp/basev3` |
-| Filakit v3 | `jeffersongoncalves/filakit` |
-| Nativekit v3 | `jeffersongoncalves/nativekit` |
-| Mobilekit v3 | `jeffersongoncalves/mobilekit` |
-| Teamkit v3 | `jeffersongoncalves/teamkit` |
+| Kit                 | Package                               |
+|---------------------|---------------------------------------|
+| Base v3             | `filakitphp/basev3`                   |
+| Filakit v3          | `jeffersongoncalves/filakit`          |
+| Nativekit v3        | `jeffersongoncalves/nativekit`        |
+| Mobilekit v3        | `jeffersongoncalves/mobilekit`        |
+| Teamkit v3          | `jeffersongoncalves/teamkit`          |
 | Service Desk Kit v3 | `jeffersongoncalves/servicedeskkitv3` |
-| Help Desk Kit v3 | `jeffersongoncalves/helpdeskkitv3` |
+| Help Desk Kit v3    | `jeffersongoncalves/helpdeskkitv3`    |
 <!-- STARTERKITS:END -->
 
 ## How It Works

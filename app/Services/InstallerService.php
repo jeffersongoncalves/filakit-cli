@@ -6,9 +6,9 @@ use Symfony\Component\Process\Process;
 
 class InstallerService
 {
-    public function run(string $name, string $kitPackage, ?callable $output = null): bool
+    public function run(string $name, string $kitPackage, array $extraArgs = [], ?callable $output = null): bool
     {
-        $process = new Process(['laravel', 'new', $name, "--using={$kitPackage}"]);
+        $process = new Process(['laravel', 'new', $name, "--using={$kitPackage}", ...$extraArgs]);
         $process->setTimeout(null);
         $process->setTty(Process::isTtySupported());
 

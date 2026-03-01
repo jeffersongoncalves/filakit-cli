@@ -27,7 +27,7 @@ it('asks for version then shows numbered starter kits', function () {
     $installer = Mockery::mock(InstallerService::class);
     $installer->shouldReceive('run')
         ->once()
-        ->with('test-app', 'jeffersongoncalves/filakitv5', Mockery::type('callable'))
+        ->with('test-app', 'jeffersongoncalves/filakitv5', [], Mockery::type('callable'))
         ->andReturn(true);
     $this->app->instance(InstallerService::class, $installer);
 
@@ -56,7 +56,7 @@ it('accepts --filament option to skip version selection', function () {
     $installer = Mockery::mock(InstallerService::class);
     $installer->shouldReceive('run')
         ->once()
-        ->with('test-app', 'jeffersongoncalves/nativekitv4', Mockery::type('callable'))
+        ->with('test-app', 'jeffersongoncalves/nativekitv4', [], Mockery::type('callable'))
         ->andReturn(true);
     $this->app->instance(InstallerService::class, $installer);
 
@@ -74,7 +74,7 @@ it('accepts --kit option to skip all selection', function () {
     $installer = Mockery::mock(InstallerService::class);
     $installer->shouldReceive('run')
         ->once()
-        ->with('test-app', 'jeffersongoncalves/filakitv5', Mockery::type('callable'))
+        ->with('test-app', 'jeffersongoncalves/filakitv5', [], Mockery::type('callable'))
         ->andReturn(true);
     $this->app->instance(InstallerService::class, $installer);
 
@@ -104,7 +104,7 @@ it('prompts for app name when not provided', function () {
     $installer = Mockery::mock(InstallerService::class);
     $installer->shouldReceive('run')
         ->once()
-        ->with('my-app', 'jeffersongoncalves/filakitv5', Mockery::type('callable'))
+        ->with('my-app', 'jeffersongoncalves/filakitv5', [], Mockery::type('callable'))
         ->andReturn(true);
     $this->app->instance(InstallerService::class, $installer);
 
@@ -141,4 +141,82 @@ it('fails when installer process fails', function () {
     ])
         ->expectsOutputToContain('Failed to create the application')
         ->assertExitCode(1);
+});
+
+it('passes boolean flags to installer', function () {
+    $installer = Mockery::mock(InstallerService::class);
+    $installer->shouldReceive('run')
+        ->once()
+        ->with('test-app', 'jeffersongoncalves/filakitv5', ['--git', '--pest', '--force'], Mockery::type('callable'))
+        ->andReturn(true);
+    $this->app->instance(InstallerService::class, $installer);
+
+    $this->artisan('new', [
+        'name' => 'test-app',
+        '--kit' => 'jeffersongoncalves/filakitv5',
+        '--git' => true,
+        '--pest' => true,
+        '--force' => true,
+    ])->assertExitCode(0);
+});
+
+it('passes value options to installer', function () {
+    $installer = Mockery::mock(InstallerService::class);
+    $installer->shouldReceive('run')
+        ->once()
+        ->with('test-app', 'jeffersongoncalves/filakitv5', ['--database=pgsql'], Mockery::type('callable'))
+        ->andReturn(true);
+    $this->app->instance(InstallerService::class, $installer);
+
+    $this->artisan('new', [
+        'name' => 'test-app',
+        '--kit' => 'jeffersongoncalves/filakitv5',
+        '--database' => 'pgsql',
+    ])->assertExitCode(0);
+});
+
+it('passes --github with value to installer', function () {
+    $installer = Mockery::mock(InstallerService::class);
+    $installer->shouldReceive('run')
+        ->once()
+        ->with('test-app', 'jeffersongoncalves/filakitv5', ['--github=public', '--organization=my-org'], Mockery::type('callable'))
+        ->andReturn(true);
+    $this->app->instance(InstallerService::class, $installer);
+
+    $this->artisan('new', [
+        'name' => 'test-app',
+        '--kit' => 'jeffersongoncalves/filakitv5',
+        '--github' => 'public',
+        '--organization' => 'my-org',
+    ])->assertExitCode(0);
+});
+
+it('passes --github without value to installer', function () {
+    $installer = Mockery::mock(InstallerService::class);
+    $installer->shouldReceive('run')
+        ->once()
+        ->with('test-app', 'jeffersongoncalves/filakitv5', ['--github'], Mockery::type('callable'))
+        ->andReturn(true);
+    $this->app->instance(InstallerService::class, $installer);
+
+    $this->artisan('new', [
+        'name' => 'test-app',
+        '--kit' => 'jeffersongoncalves/filakitv5',
+        '--github' => '',
+    ])->assertExitCode(0);
+});
+
+it('passes package manager flags to installer', function () {
+    $installer = Mockery::mock(InstallerService::class);
+    $installer->shouldReceive('run')
+        ->once()
+        ->with('test-app', 'jeffersongoncalves/filakitv5', ['--pnpm'], Mockery::type('callable'))
+        ->andReturn(true);
+    $this->app->instance(InstallerService::class, $installer);
+
+    $this->artisan('new', [
+        'name' => 'test-app',
+        '--kit' => 'jeffersongoncalves/filakitv5',
+        '--pnpm' => true,
+    ])->assertExitCode(0);
 });
