@@ -2,23 +2,23 @@
 
 return [
     [
-        'title' => 'Base v5',
+        'title' => 'Base Kit v5',
         'package' => 'filakitphp/basev5',
     ],
     [
-        'title' => 'Filakit v5',
+        'title' => 'Fila Kit v5',
         'package' => 'jeffersongoncalves/filakitv5',
     ],
     [
-        'title' => 'Nativekit v5',
+        'title' => 'Native Kit v5',
         'package' => 'jeffersongoncalves/nativekitv5',
     ],
     [
-        'title' => 'Mobilekit v5',
+        'title' => 'Mobile Kit v5',
         'package' => 'jeffersongoncalves/mobilekitv5',
     ],
     [
-        'title' => 'Teamkit v5',
+        'title' => 'Team Kit v5',
         'package' => 'jeffersongoncalves/teamkitv5',
     ],
     [
@@ -30,27 +30,31 @@ return [
         'package' => 'jeffersongoncalves/helpdeskkitv5',
     ],
     [
-        'title' => 'Evolutionkit v5',
+        'title' => 'Evolution Kit v5',
         'package' => 'jeffersongoncalves/evolutionkitv5',
     ],
     [
-        'title' => 'Base v4',
+        'title' => 'MFA Kit v5',
+        'package' => 'jeffersongoncalves/mfakitv5',
+    ],
+    [
+        'title' => 'Base Kit v4',
         'package' => 'filakitphp/basev4',
     ],
     [
-        'title' => 'Filakit v4',
+        'title' => 'Fila Kit v4',
         'package' => 'jeffersongoncalves/filakitv4',
     ],
     [
-        'title' => 'Nativekit v4',
+        'title' => 'Native Kit v4',
         'package' => 'jeffersongoncalves/nativekitv4',
     ],
     [
-        'title' => 'Mobilekit v4',
+        'title' => 'Mobile Kit v4',
         'package' => 'jeffersongoncalves/mobilekitv4',
     ],
     [
-        'title' => 'Teamkit v4',
+        'title' => 'Team Kit v4',
         'package' => 'jeffersongoncalves/teamkitv4',
     ],
     [
@@ -62,31 +66,31 @@ return [
         'package' => 'jeffersongoncalves/helpdeskkitv4',
     ],
     [
-        'title' => 'Evolutionkit v4',
+        'title' => 'Evolution Kit v4',
         'package' => 'jeffersongoncalves/evolutionkitv4',
     ],
     [
-        'title' => 'MFAkit v4',
+        'title' => 'MFA Kit v4',
         'package' => 'jeffersongoncalves/mfakitv4',
     ],
     [
-        'title' => 'Base v3',
+        'title' => 'Base Kit v3',
         'package' => 'filakitphp/basev3',
     ],
     [
-        'title' => 'Filakit v3',
+        'title' => 'Fila Kit v3',
         'package' => 'jeffersongoncalves/filakit',
     ],
     [
-        'title' => 'Nativekit v3',
+        'title' => 'Native Kit v3',
         'package' => 'jeffersongoncalves/nativekit',
     ],
     [
-        'title' => 'Mobilekit v3',
+        'title' => 'Mobile Kit v3',
         'package' => 'jeffersongoncalves/mobilekit',
     ],
     [
-        'title' => 'Teamkit v3',
+        'title' => 'Team Kit v3',
         'package' => 'jeffersongoncalves/teamkit',
     ],
     [
