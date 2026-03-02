@@ -93,5 +93,5 @@ it('loads from default config file', function () {
     expect($kits)->toBeArray()
         ->and($kits)->not->toBeEmpty()
         ->and($kits[0])->toBeInstanceOf(StarterKit::class)
-        ->and($kits[0]->title)->toBe('Base v5');
+        ->and($kits[0]->title)->toBe('Base Kit v5');
 });
