@@ -2,9 +2,9 @@
 /.idea
 /.vscode
 /.vagrant
-/.ai
-/.claude
 .phpunit.result.cache
 .phpunit.cache
+.env
+/.claude/settings.local.json
 /test-app
 /my-app
