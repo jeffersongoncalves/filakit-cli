@@ -4,28 +4,39 @@ on:
   release:
     types: [released]
 
-permissions:
-  contents: write
-
 jobs:
   update:
     runs-on: ubuntu-latest
 
+    permissions:
+      contents: write
+
     steps:
       - name: Checkout code
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
         with:
-          ref: main
+          fetch-depth: 0
+          ref: ${{ github.event.release.target_commitish }}
+
+      - name: Extract release date from git tag
+        id: release_date
+        run: |
+          echo "date=$(git log -1 --date=short --format=%ad '${{ github.event.release.tag_name }}')" >> $GITHUB_OUTPUT;
 
       - name: Update Changelog
         uses: stefanzweifel/changelog-updater-action@v1
         with:
-          latest-version: ${{ github.event.release.tag_name }}
+          release-date: ${{ steps.release_date.outputs.date }}
           release-notes: ${{ github.event.release.body }}
+          latest-version: ${{ github.event.release.tag_name }}
+          compare-url-target-revision: ${{ github.event.release.target_commitish }}
+
+      - name: Write Version to File
+        run: echo "${{ github.event.release.tag_name }}" > version.txt
 
       - name: Commit updated CHANGELOG
-        uses: stefanzweifel/git-auto-commit-action@v5
+        uses: stefanzweifel/git-auto-commit-action@v7
         with:
-          branch: main
+          branch: ${{ github.event.release.target_commitish }}
           commit_message: Update CHANGELOG
-          file_pattern: CHANGELOG.md
+          push_options: --force

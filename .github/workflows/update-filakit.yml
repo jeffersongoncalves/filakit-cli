@@ -11,9 +11,10 @@ jobs:
   update:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
         with:
           ref: main
+          fetch-depth: 0
 
       - uses: shivammathur/setup-php@v2
         with:
@@ -97,7 +98,7 @@ jobs:
 
       - name: Commit changes
         if: steps.changes.outputs.changed == 'true'
-        uses: stefanzweifel/git-auto-commit-action@v5
+        uses: stefanzweifel/git-auto-commit-action@v7
         with:
           commit_message: "Update starter kits list from plugins.json"
           file_pattern: "config/starterkits.php README.md"
@@ -105,9 +106,7 @@ jobs:
       - name: Get latest tag
         if: steps.changes.outputs.changed == 'true'
         id: tag
-        uses: "WyriHaximus/github-action-get-previous-tag@v2"
-        with:
-          fallback: "0.0.0"
+        run: echo "tag=$(git describe --tags --abbrev=0 2>/dev/null || echo '0.0.0')" >> "$GITHUB_OUTPUT"
 
       - name: Calculate next version
         if: steps.changes.outputs.changed == 'true'
