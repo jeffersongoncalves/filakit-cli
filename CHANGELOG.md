@@ -2,6 +2,10 @@
 
 All notable changes to `filakit-cli` will be documented in this file.
 
+## v1.0.0 - 2026-05-07
+
+**Full Changelog**: https://github.com/jeffersongoncalves/filakit-cli/compare/v0.0.15...v1.0.0
+
 ## v0.0.15 - 2026-03-31
 
 - Fix Pint workflow failing on tag pushes (detached HEAD)
