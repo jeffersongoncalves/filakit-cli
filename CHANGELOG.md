@@ -2,6 +2,10 @@
 
 All notable changes to `filakit-cli` will be documented in this file.
 
+## 1.0.0 - 2026-05-07
+
+**Full Changelog**: https://github.com/jeffersongoncalves/filakit-cli/compare/v0.0.15...1.0.0
+
 ## v1.0.0 - 2026-05-07
 
 **Full Changelog**: https://github.com/jeffersongoncalves/filakit-cli/compare/v0.0.15...v1.0.0
