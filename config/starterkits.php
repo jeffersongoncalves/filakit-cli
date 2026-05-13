@@ -38,6 +38,10 @@ return [
         'package' => 'jeffersongoncalves/mfakitv5',
     ],
     [
+        'title' => 'FilaFlux Kit v5',
+        'package' => 'jeffersongoncalves/filafluxkitv5',
+    ],
+    [
         'title' => 'Base Kit v4',
         'package' => 'filakitphp/basev4',
     ],

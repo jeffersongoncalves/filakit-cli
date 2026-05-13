@@ -112,6 +112,7 @@ filakit new my-app --kit=jeffersongoncalves/filakitv5 --database=pgsql --force
 | Help Desk Kit v5 | `jeffersongoncalves/helpdeskkitv5` |
 | Evolution Kit v5 | `jeffersongoncalves/evolutionkitv5` |
 | MFA Kit v5 | `jeffersongoncalves/mfakitv5` |
+| FilaFlux Kit v5 | `jeffersongoncalves/filafluxkitv5` |
 
 ### Filament v4
 
