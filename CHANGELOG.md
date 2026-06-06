@@ -2,6 +2,10 @@
 
 All notable changes to `filakit-cli` will be documented in this file.
 
+## 1.0.1 - 2026-06-06
+
+Adopt version.txt release flow (version.txt as version source, no tag-move; concurrency on builds).
+
 ## 1.0.0 - 2026-05-07
 
 **Full Changelog**: https://github.com/jeffersongoncalves/filakit-cli/compare/v0.0.15...1.0.0
