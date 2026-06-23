@@ -3,9 +3,9 @@
 namespace App\Providers;
 
 use App\Services\InstallerService;
-use App\Services\SelfUpdateService;
 use App\Services\StarterKitService;
 use Illuminate\Support\ServiceProvider;
+use JeffersonGoncalves\LaravelZero\SelfUpdate\PharUpdater;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -13,7 +13,13 @@ class AppServiceProvider extends ServiceProvider
     {
         $this->app->singleton(StarterKitService::class);
         $this->app->singleton(InstallerService::class);
-        $this->app->singleton(SelfUpdateService::class);
+
+        $this->app->singleton(PharUpdater::class, fn () => new PharUpdater(
+            githubRepo: 'jeffersongoncalves/filakit-cli',
+            assetName: 'filakit.phar',
+            tempPrefix: 'filakit_',
+            currentVersion: (string) config('app.version', 'unreleased'),
+        ));
     }
 
     public function boot(): void

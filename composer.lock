@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "8a67dc91ad2dbf6a62604f5d32b34a5d",
+    "content-hash": "7cdf47c246580900b93aa498c3813c20",
     "packages": [
         {
             "name": "carbonphp/carbon-doctrine-types",
@@ -3779,6 +3779,62 @@
                 "source": "https://github.com/Jean85/pretty-package-versions/tree/2.1.1"
             },
             "time": "2025-03-19T14:43:43+00:00"
+        },
+        {
+            "name": "jeffersongoncalves/laravel-zero-self-update",
+            "version": "v1.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/jeffersongoncalves/laravel-zero-self-update.git",
+                "reference": "73fe3f047bcc4d9b13e162f3bfde830b2a668b5b"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/jeffersongoncalves/laravel-zero-self-update/zipball/73fe3f047bcc4d9b13e162f3bfde830b2a668b5b",
+                "reference": "73fe3f047bcc4d9b13e162f3bfde830b2a668b5b",
+                "shasum": ""
+            },
+            "require": {
+                "guzzlehttp/guzzle": "^7.10",
+                "illuminate/console": "^11.0|^12.0",
+                "php": "^8.2"
+            },
+            "require-dev": {
+                "laravel-zero/framework": "^12.0",
+                "laravel/pint": "^1.25",
+                "mockery/mockery": "^1.6",
+                "pestphp/pest": "^3.8|^4.1"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "JeffersonGoncalves\\LaravelZero\\SelfUpdate\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Jefferson Goncalves",
+                    "email": "jeffersongoncalves@users.noreply.github.com"
+                }
+            ],
+            "description": "Reusable self-update service and base command for Laravel Zero CLIs distributed as a PHAR via GitHub Releases.",
+            "homepage": "https://github.com/jeffersongoncalves/laravel-zero-self-update",
+            "keywords": [
+                "cli",
+                "github-releases",
+                "laravel-zero",
+                "phar",
+                "self-update"
+            ],
+            "support": {
+                "issues": "https://github.com/jeffersongoncalves/laravel-zero-self-update/issues",
+                "source": "https://github.com/jeffersongoncalves/laravel-zero-self-update/tree/v1.0.0"
+            },
+            "time": "2026-06-23T00:47:13+00:00"
         },
         {
             "name": "jolicode/jolinotif",
