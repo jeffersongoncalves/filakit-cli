@@ -42,6 +42,10 @@ return [
         'package' => 'jeffersongoncalves/filafluxkitv5',
     ],
     [
+        'title' => 'ERP Kit v5',
+        'package' => 'jeffersongoncalves/erpkitv5',
+    ],
+    [
         'title' => 'Base Kit v4',
         'package' => 'filakitphp/basev4',
     ],
@@ -76,6 +80,10 @@ return [
     [
         'title' => 'MFA Kit v4',
         'package' => 'jeffersongoncalves/mfakitv4',
+    ],
+    [
+        'title' => 'ERP Kit v4',
+        'package' => 'jeffersongoncalves/erpkitv4',
     ],
     [
         'title' => 'Base Kit v3',
