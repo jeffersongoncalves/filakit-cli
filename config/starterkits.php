@@ -113,4 +113,8 @@ return [
         'title' => 'Help Desk Kit v3',
         'package' => 'jeffersongoncalves/helpdeskkitv3',
     ],
+    [
+        'title' => 'ERP Kit v3',
+        'package' => 'jeffersongoncalves/erpkitv3',
+    ],
 ];

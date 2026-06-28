@@ -141,6 +141,7 @@ filakit new my-app --kit=jeffersongoncalves/filakitv5 --database=pgsql --force
 | Team Kit v3 | `jeffersongoncalves/teamkit` |
 | Service Desk Kit v3 | `jeffersongoncalves/servicedeskkitv3` |
 | Help Desk Kit v3 | `jeffersongoncalves/helpdeskkitv3` |
+| ERP Kit v3 | `jeffersongoncalves/erpkitv3` |
 <!-- STARTERKITS:END -->
 
 ## How It Works
