@@ -103,23 +103,32 @@ jobs:
           commit_message: "Update starter kits list from plugins.json"
           file_pattern: "config/starterkits.php README.md"
 
-      - name: Get latest tag
+      - name: Get latest version tag
         if: steps.changes.outputs.changed == 'true'
         id: tag
-        run: echo "tag=$(git describe --tags --abbrev=0 2>/dev/null || echo '0.0.0')" >> "$GITHUB_OUTPUT"
+        run: |
+          # Highest semantic version across ALL tags (ignores commit ancestry and the
+          # optional "v" prefix). Using git describe here grabbed the nearest ancestor
+          # tag instead of the highest version, regressing 1.0.1 -> 0.0.16.
+          LATEST=$(git tag -l \
+            | sed 's/^v//' \
+            | grep -E '^[0-9]+\.[0-9]+\.[0-9]+$' \
+            | sort -V \
+            | tail -n1)
+          [ -z "$LATEST" ] && LATEST="0.0.0"
+          echo "tag=$LATEST" >> "$GITHUB_OUTPUT"
 
       - name: Calculate next version
         if: steps.changes.outputs.changed == 'true'
         id: version
         run: |
           CURRENT="${{ steps.tag.outputs.tag }}"
-          CURRENT="${CURRENT#v}"
           IFS='.' read -r MAJOR MINOR PATCH <<< "$CURRENT"
           NEXT_PATCH=$((PATCH + 1))
           NEXT="v${MAJOR}.${MINOR}.${NEXT_PATCH}"
 
-          # Ensure the version doesn't already exist
-          while gh release view "$NEXT" &>/dev/null; do
+          # Skip versions that already exist as a release, with or without "v" prefix.
+          while gh release view "$NEXT" &>/dev/null || gh release view "${NEXT#v}" &>/dev/null; do
             NEXT_PATCH=$((NEXT_PATCH + 1))
             NEXT="v${MAJOR}.${MINOR}.${NEXT_PATCH}"
           done
