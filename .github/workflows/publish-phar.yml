@@ -22,10 +22,10 @@ jobs:
       - name: Get release version
         id: tag
         run: |
-          TAG="$(tr -d ' \t\r\n' < version.txt 2>/dev/null || true)"
-          if [ -z "$TAG" ]; then
-            TAG="${{ github.event.release.tag_name }}"
-          fi
+          # Always build with the released tag (without the optional "v" prefix).
+          # version.txt used to override this and pinned the PHAR to a stale version.
+          TAG="${{ github.event.release.tag_name }}"
+          TAG="${TAG#v}"
           echo "tag=$TAG" >> "$GITHUB_OUTPUT"
 
       - name: Setup PHP

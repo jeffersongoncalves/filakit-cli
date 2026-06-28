@@ -143,12 +143,9 @@ jobs:
           gh release create ${{ steps.version.outputs.next }} \
             --title "${{ steps.version.outputs.next }}" \
             --notes "Automated release: starter kits list updated." \
-            --target main
+            --target main \
+            --latest
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Trigger PHAR build
-        if: steps.changes.outputs.changed == 'true'
-        run: gh workflow run publish-phar.yml -f tag_name=${{ steps.version.outputs.next }}
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      # The PHAR build runs automatically via publish-phar.yml on release "created".
