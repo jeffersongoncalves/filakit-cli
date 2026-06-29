@@ -56,6 +56,3 @@ jobs:
         run: gh release upload ${{ github.event.release.tag_name }} builds/filakit.phar
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: Cp filakit.phar to filakit
-        run: cp builds/filakit.phar builds/filakit

@@ -1,0 +1,106 @@
+name: Release
+
+# Single linear release flow. The KEY invariant: the PHAR binary (composer `bin`,
+# builds/filakit) is built and committed to main BEFORE the tag is created, and the
+# tag is pinned to that exact commit. Nothing rebuilds onto a post-tag commit, so the
+# tag never moves and Packagist's stable-version immutability is never violated.
+
+on:
+  workflow_dispatch:
+    inputs:
+      version:
+        description: 'Explicit version without the leading "v" (e.g. 1.0.3). Leave blank to auto-bump the patch.'
+        required: false
+
+permissions: write-all
+
+concurrency:
+  group: release
+  cancel-in-progress: false
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout main
+        uses: actions/checkout@v6
+        with:
+          ref: main
+          fetch-depth: 0
+
+      - name: Resolve version
+        id: v
+        run: |
+          if [ -n "${{ inputs.version }}" ]; then
+            NEXT="${{ inputs.version }}"
+            NEXT="${NEXT#v}"
+          else
+            # Highest semver across all tags, ignoring the optional "v" prefix.
+            LATEST=$(git tag -l \
+              | sed 's/^v//' \
+              | grep -E '^[0-9]+\.[0-9]+\.[0-9]+$' \
+              | sort -V \
+              | tail -n1)
+            [ -z "$LATEST" ] && LATEST="0.0.0"
+            IFS='.' read -r MA MI PA <<< "$LATEST"
+            NEXT="${MA}.${MI}.$((PA + 1))"
+          fi
+          # Never reuse a version that already shipped as a release.
+          while gh release view "v$NEXT" &>/dev/null || gh release view "$NEXT" &>/dev/null; do
+            IFS='.' read -r MA MI PA <<< "$NEXT"
+            NEXT="${MA}.${MI}.$((PA + 1))"
+          done
+          echo "version=$NEXT" >> "$GITHUB_OUTPUT"
+          echo "tag=v$NEXT" >> "$GITHUB_OUTPUT"
+          echo "Releasing v$NEXT"
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: 8.4
+          extensions: dom, curl, libxml, mbstring, zip
+          ini-values: error_reporting=E_ALL, phar.readonly=Off
+          tools: composer:v2
+          coverage: none
+
+      - name: Install the dependencies
+        run: composer install --prefer-dist --optimize-autoloader --no-interaction --no-progress --no-suggest --no-scripts --ansi -v --ignore-platform-req=ext-pcntl --ignore-platform-req=ext-posix --ignore-platform-req=ext-sockets
+
+      - name: Stamp embedded version
+        run: echo "${{ steps.v.outputs.version }}" > version.txt
+
+      - name: Update Changelog
+        uses: stefanzweifel/changelog-updater-action@v1
+        with:
+          latest-version: ${{ steps.v.outputs.tag }}
+          release-notes: "Release ${{ steps.v.outputs.tag }}"
+
+      - name: Build the PHAR with the release version
+        run: php filakit app:build filakit --build-version=${{ steps.v.outputs.version }}
+
+      - name: Commit release artifacts to main
+        id: commit
+        uses: stefanzweifel/git-auto-commit-action@v7
+        with:
+          branch: main
+          commit_message: "Release ${{ steps.v.outputs.tag }}"
+          file_pattern: "builds/filakit version.txt CHANGELOG.md"
+
+      - name: Resolve release commit
+        id: sha
+        run: echo "sha=$(git rev-parse HEAD)" >> "$GITHUB_OUTPUT"
+
+      # Tag is pinned to the commit that ALREADY contains the built binary.
+      # publish-phar.yml fires on "release: created" and uploads the filakit.phar asset.
+      - name: Create tag and release at the release commit
+        run: |
+          gh release create ${{ steps.v.outputs.tag }} \
+            --title "${{ steps.v.outputs.tag }}" \
+            --notes "Release ${{ steps.v.outputs.tag }}" \
+            --target ${{ steps.sha.outputs.sha }} \
+            --latest
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

@@ -103,49 +103,11 @@ jobs:
           commit_message: "Update starter kits list from plugins.json"
           file_pattern: "config/starterkits.php README.md"
 
-      - name: Get latest version tag
+      # Hand off to release.yml, which builds and commits the PHAR BEFORE tagging so
+      # the tag is pinned to a commit that already contains the final binary. Auto-bumps
+      # the patch version when no explicit version is passed.
+      - name: Trigger release
         if: steps.changes.outputs.changed == 'true'
-        id: tag
-        run: |
-          # Highest semantic version across ALL tags (ignores commit ancestry and the
-          # optional "v" prefix). Using git describe here grabbed the nearest ancestor
-          # tag instead of the highest version, regressing 1.0.1 -> 0.0.16.
-          LATEST=$(git tag -l \
-            | sed 's/^v//' \
-            | grep -E '^[0-9]+\.[0-9]+\.[0-9]+$' \
-            | sort -V \
-            | tail -n1)
-          [ -z "$LATEST" ] && LATEST="0.0.0"
-          echo "tag=$LATEST" >> "$GITHUB_OUTPUT"
-
-      - name: Calculate next version
-        if: steps.changes.outputs.changed == 'true'
-        id: version
-        run: |
-          CURRENT="${{ steps.tag.outputs.tag }}"
-          IFS='.' read -r MAJOR MINOR PATCH <<< "$CURRENT"
-          NEXT_PATCH=$((PATCH + 1))
-          NEXT="v${MAJOR}.${MINOR}.${NEXT_PATCH}"
-
-          # Skip versions that already exist as a release, with or without "v" prefix.
-          while gh release view "$NEXT" &>/dev/null || gh release view "${NEXT#v}" &>/dev/null; do
-            NEXT_PATCH=$((NEXT_PATCH + 1))
-            NEXT="v${MAJOR}.${MINOR}.${NEXT_PATCH}"
-          done
-
-          echo "next=$NEXT" >> "$GITHUB_OUTPUT"
+        run: gh workflow run release.yml --ref main
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: Create Release
-        if: steps.changes.outputs.changed == 'true'
-        run: |
-          gh release create ${{ steps.version.outputs.next }} \
-            --title "${{ steps.version.outputs.next }}" \
-            --notes "Automated release: starter kits list updated." \
-            --target main \
-            --latest
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-      # The PHAR build runs automatically via publish-phar.yml on release "created".
