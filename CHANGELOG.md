@@ -2,6 +2,10 @@
 
 All notable changes to `filakit-cli` will be documented in this file.
 
+## v1.0.4 - 2026-06-29
+
+Release v1.0.4
+
 ## v1.0.3 - 2026-06-29
 
 Release v1.0.3
