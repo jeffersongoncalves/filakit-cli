@@ -94,7 +94,6 @@ jobs:
         run: echo "sha=$(git rev-parse HEAD)" >> "$GITHUB_OUTPUT"
 
       # Tag is pinned to the commit that ALREADY contains the built binary.
-      # publish-phar.yml fires on "release: created" and uploads the filakit.phar asset.
       - name: Create tag and release at the release commit
         run: |
           gh release create ${{ steps.v.outputs.tag }} \
@@ -102,5 +101,16 @@ jobs:
             --notes "Release ${{ steps.v.outputs.tag }}" \
             --target ${{ steps.sha.outputs.sha }} \
             --latest
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      # self-update (SelfUpdateCommand::assetName) fetches the "filakit.phar" asset.
+      # The committed binary IS the PHAR; upload it here. We can't rely on a separate
+      # "release: created" workflow: releases created by GITHUB_TOKEN do not fire that
+      # event (GitHub anti-recursion), so the asset must be uploaded in this same job.
+      - name: Upload the PHAR asset
+        run: |
+          cp builds/filakit filakit.phar
+          gh release upload ${{ steps.v.outputs.tag }} filakit.phar --clobber
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

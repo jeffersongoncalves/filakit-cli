@@ -1,4 +1,9 @@
 * text=auto eol=lf
+
+# The compiled PHAR is the composer `bin`. Never apply eol/text normalization to it
+# — that corrupts the binary on Windows checkouts and `git show`.
+builds/** binary
+
 /.github export-ignore
 .scrutinizer.yml export-ignore
 BACKERS.md export-ignore
