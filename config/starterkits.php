@@ -42,6 +42,10 @@ return [
         'package' => 'jeffersongoncalves/filafluxkitv5',
     ],
     [
+        'title' => 'ERP Kit v5',
+        'package' => 'jeffersongoncalves/erpkitv5',
+    ],
+    [
         'title' => 'Base Kit v4',
         'package' => 'filakitphp/basev4',
     ],
@@ -78,6 +82,10 @@ return [
         'package' => 'jeffersongoncalves/mfakitv4',
     ],
     [
+        'title' => 'ERP Kit v4',
+        'package' => 'jeffersongoncalves/erpkitv4',
+    ],
+    [
         'title' => 'Base Kit v3',
         'package' => 'filakitphp/basev3',
     ],
@@ -104,5 +112,9 @@ return [
     [
         'title' => 'Help Desk Kit v3',
         'package' => 'jeffersongoncalves/helpdeskkitv3',
+    ],
+    [
+        'title' => 'ERP Kit v3',
+        'package' => 'jeffersongoncalves/erpkitv3',
     ],
 ];
