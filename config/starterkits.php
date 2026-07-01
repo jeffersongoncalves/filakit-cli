@@ -46,6 +46,10 @@ return [
         'package' => 'jeffersongoncalves/erpkitv5',
     ],
     [
+        'title' => 'Commerce Kit v5',
+        'package' => 'jeffersongoncalves/commercekitv5',
+    ],
+    [
         'title' => 'Base Kit v4',
         'package' => 'filakitphp/basev4',
     ],
@@ -86,6 +90,10 @@ return [
         'package' => 'jeffersongoncalves/erpkitv4',
     ],
     [
+        'title' => 'Commerce Kit v4',
+        'package' => 'jeffersongoncalves/commercekitv4',
+    ],
+    [
         'title' => 'Base Kit v3',
         'package' => 'filakitphp/basev3',
     ],
@@ -116,5 +124,9 @@ return [
     [
         'title' => 'ERP Kit v3',
         'package' => 'jeffersongoncalves/erpkitv3',
+    ],
+    [
+        'title' => 'Commerce Kit v3',
+        'package' => 'jeffersongoncalves/commercekitv3',
     ],
 ];
