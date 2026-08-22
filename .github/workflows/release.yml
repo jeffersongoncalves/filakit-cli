@@ -72,11 +72,17 @@ jobs:
       - name: Stamp embedded version
         run: echo "${{ steps.v.outputs.version }}" > version.txt
 
-      - name: Update Changelog
-        uses: stefanzweifel/changelog-updater-action@a938690fad7edf25368f37e43a1ed1b34303eb36 # v1
+      - name: Generate CHANGELOG.md
+        uses: orhun/git-cliff-action@f50e11560dce63f7c33227798f90b924471a88b5 # v4.8.0
         with:
-          latest-version: ${{ steps.v.outputs.tag }}
-          release-notes: "Release ${{ steps.v.outputs.tag }}"
+          config: cliff.toml
+          args: --tag ${{ steps.v.outputs.tag }} -o CHANGELOG.md
+
+      - name: Generate release notes
+        uses: orhun/git-cliff-action@f50e11560dce63f7c33227798f90b924471a88b5 # v4.8.0
+        with:
+          config: cliff.toml
+          args: --tag ${{ steps.v.outputs.tag }} --unreleased --strip all -o RELEASE_NOTES.md
 
       - name: Build the PHAR with the release version
         run: php filakit app:build filakit --build-version=${{ steps.v.outputs.version }}
@@ -98,7 +104,7 @@ jobs:
         run: |
           gh release create ${{ steps.v.outputs.tag }} \
             --title "${{ steps.v.outputs.tag }}" \
-            --notes "Release ${{ steps.v.outputs.tag }}" \
+            --notes-file RELEASE_NOTES.md \
             --target ${{ steps.sha.outputs.sha }} \
             --latest
         env:
