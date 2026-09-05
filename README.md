@@ -6,6 +6,8 @@
 
 # Filakit CLI
 
+[![Buy Me A Coffee](https://img.shields.io/badge/Buy%20Me%20A%20Coffee-support-FFDD00?style=flat-square&logo=buy-me-a-coffee&logoColor=black)](https://buymeacoffee.com/jeffersongoncalves)
+
 <p align="center">
   <a href="https://github.com/jeffersongoncalves/filakit-cli/actions/workflows/run-tests.yml"><img src="https://github.com/jeffersongoncalves/filakit-cli/actions/workflows/run-tests.yml/badge.svg" alt="Tests" /></a>
   <a href="https://github.com/jeffersongoncalves/filakit-cli/actions/workflows/build.yml"><img src="https://github.com/jeffersongoncalves/filakit-cli/actions/workflows/build.yml/badge.svg" alt="Build" /></a>
