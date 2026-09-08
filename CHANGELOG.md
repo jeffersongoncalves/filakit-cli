@@ -2,6 +2,21 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.0.8] - 2026-09-08
+
+### Bug Fixes
+
+- **ci:** Flatten nested legacy startkit groups in plugins.json parsing
+- **ci:** Publish release as draft until PHAR asset is attached
+
+### Documentation
+
+- Add Buy Me a Coffee sponsor link (#6)
+
+### Miscellaneous Tasks
+
+- Add GitHub Sponsors to FUNDING.yml (#7)
+
 ## [1.0.7] - 2026-08-26
 
 ### Bug Fixes
