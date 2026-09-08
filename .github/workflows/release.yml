@@ -73,13 +73,13 @@ jobs:
         run: echo "${{ steps.v.outputs.version }}" > version.txt
 
       - name: Generate CHANGELOG.md
-        uses: orhun/git-cliff-action@f50e11560dce63f7c33227798f90b924471a88b5 # v4.8.0
+        uses: orhun/git-cliff-action@3d96a18cc4ec17e9dc69ddcc424ccafaf1f78ce2 # v4.9.0
         with:
           config: cliff.toml
           args: --tag ${{ steps.v.outputs.tag }} -o CHANGELOG.md
 
       - name: Generate release notes
-        uses: orhun/git-cliff-action@f50e11560dce63f7c33227798f90b924471a88b5 # v4.8.0
+        uses: orhun/git-cliff-action@3d96a18cc4ec17e9dc69ddcc424ccafaf1f78ce2 # v4.9.0
         with:
           config: cliff.toml
           args: --tag ${{ steps.v.outputs.tag }} --unreleased --strip all -o RELEASE_NOTES.md
