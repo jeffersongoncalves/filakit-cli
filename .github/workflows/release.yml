@@ -32,8 +32,8 @@ jobs:
       - name: Resolve version
         id: v
         run: |
-          if [ -n "${{ inputs.version }}" ]; then
-            NEXT="${{ inputs.version }}"
+          if [ -n "$VERSION_INPUT" ]; then
+            NEXT="$VERSION_INPUT"
             NEXT="${NEXT#v}"
           else
             # Highest semver across all tags, ignoring the optional "v" prefix.
@@ -55,6 +55,7 @@ jobs:
           echo "tag=v$NEXT" >> "$GITHUB_OUTPUT"
           echo "Releasing v$NEXT"
         env:
+          VERSION_INPUT: ${{ inputs.version }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Setup PHP
