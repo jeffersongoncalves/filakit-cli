@@ -9,7 +9,7 @@
 [![Buy Me A Coffee](https://img.shields.io/badge/Buy%20Me%20A%20Coffee-support-FFDD00?style=flat-square&logo=buy-me-a-coffee&logoColor=black)](https://buymeacoffee.com/jeffersongoncalves)
 
 <p align="center">
-  <a href="https://github.com/jeffersongoncalves/filakit-cli/actions/workflows/run-tests.yml"><img src="https://github.com/jeffersongoncalves/filakit-cli/actions/workflows/run-tests.yml/badge.svg" alt="Tests" /></a>
+  <a href="https://github.com/jeffersongoncalves/filakit-cli/actions/workflows/tests.yml"><img src="https://github.com/jeffersongoncalves/filakit-cli/actions/workflows/tests.yml/badge.svg" alt="Tests" /></a>
   <a href="https://github.com/jeffersongoncalves/filakit-cli/actions/workflows/build.yml"><img src="https://github.com/jeffersongoncalves/filakit-cli/actions/workflows/build.yml/badge.svg" alt="Build" /></a>
   <a href="https://github.com/jeffersongoncalves/filakit-cli/releases/latest"><img src="https://img.shields.io/github/v/release/jeffersongoncalves/filakit-cli" alt="Latest Release" /></a>
   <img src="https://img.shields.io/badge/php-%3E%3D8.2-8892BF" alt="PHP 8.2+" />
