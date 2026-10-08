@@ -2,6 +2,25 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.0.9] - 2026-10-08
+
+### CI/CD
+
+- Pass release version input through env
+- Standardize dependabot config
+- Standardize tests workflow
+- Remove run-tests.yml (replaced by tests.yml)
+- Standardize tests workflow
+- Auto-merge dependabot github-actions minor/patch
+
+### Documentation
+
+- Point tests badge to tests.yml
+
+### Other
+
+- Update starter kits list from plugins.json
+
 ## [1.0.8] - 2026-09-08
 
 ### Bug Fixes
