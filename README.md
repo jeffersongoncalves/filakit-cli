@@ -98,6 +98,17 @@ filakit new my-app --kit=jeffersongoncalves/filakitv5 --github=private --organiz
 filakit new my-app --kit=jeffersongoncalves/filakitv5 --database=pgsql --force
 ```
 
+### Private starter kits (SSH)
+
+Register a private starter kit repository once, then use it like any other kit:
+
+```bash
+filakit add-repo git@github.com:vendor/my-skeleton.git
+filakit new my-app --kit=vendor/my-skeleton
+```
+
+`add-repo` checks SSH access (`git ls-remote`) and, if it works, adds the repository to your global Composer config as `{"type":"git","url":"..."}`, so Composer always clones it over SSH (no GitHub token needed). Both `git@host:vendor/repo.git` and `ssh://user@host:port/vendor/repo.git` are accepted. If access fails, it prints the steps to create and register an SSH key.
+
 <!-- STARTERKITS:START -->
 ## Available Starter Kits
 
