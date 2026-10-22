@@ -2,6 +2,35 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.1.0] - 2026-10-22
+
+### Features
+
+- Add add-repo command to register private starter kits via SSH (#16)
+
+### Other
+
+- Bump shivammathur/setup-php (#15)
+
+Bumps the actions-deps group with 1 update: [shivammathur/setup-php](https://github.com/shivammathur/setup-php).
+
+
+Updates `shivammathur/setup-php` from 2.37.2 to 2.40.0
+- [Release notes](https://github.com/shivammathur/setup-php/releases)
+- [Commits](https://github.com/shivammathur/setup-php/compare/f3e473d116dcccaddc5834248c87452386958240...eb7c497e18156a6bbabfef1d3a82760b9eda3962)
+
+---
+updated-dependencies:
+- dependency-name: shivammathur/setup-php
+  dependency-version: 2.40.0
+  dependency-type: direct:production
+  update-type: version-update:semver-minor
+  dependency-group: actions-deps
+...
+
+Signed-off-by: dependabot[bot] <support@github.com>
+Co-authored-by: dependabot[bot] <49699333+dependabot[bot]@users.noreply.github.com>
+
 ## [1.0.9] - 2026-10-08
 
 ### CI/CD
