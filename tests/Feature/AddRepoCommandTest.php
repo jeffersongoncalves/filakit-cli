@@ -15,7 +15,7 @@ it('registers a private repository when ssh access works', function () {
         ->andReturn(true);
     $service->shouldReceive('register')
         ->once()
-        ->with('vendor-my-skeleton', 'git@github.com:vendor/my-skeleton.git')
+        ->with('vendor--my-skeleton', 'git@github.com:vendor/my-skeleton.git')
         ->andReturn(true);
     $this->app->instance(RepositoryService::class, $service);
 
@@ -29,13 +29,34 @@ it('prompts for the url when not provided', function () {
     $service->shouldReceive('canAccess')->once()->andReturn(true);
     $service->shouldReceive('register')
         ->once()
-        ->with('vendor-my-skeleton', 'ssh://git@gitlab.com/vendor/my-skeleton')
+        ->with('vendor--my-skeleton', 'ssh://git@gitlab.com/vendor/my-skeleton')
         ->andReturn(true);
     $this->app->instance(RepositoryService::class, $service);
 
     $this->artisan('add-repo')
         ->expectsQuestion('What is the SSH URL of the private repository?', 'ssh://git@gitlab.com/vendor/my-skeleton')
         ->assertExitCode(0);
+});
+
+it('accepts ssh urls with a custom user and port', function () {
+    $service = Mockery::mock(RepositoryService::class);
+    $service->shouldReceive('canAccess')->once()->andReturn(false);
+    $this->app->instance(RepositoryService::class, $service);
+
+    $this->artisan('add-repo', ['url' => 'ssh://deploy@example.com:2222/vendor/kit.git'])
+        ->expectsOutputToContain('ssh -T deploy@example.com')
+        ->assertExitCode(1);
+});
+
+it('uses distinct repository keys for similar package paths', function () {
+    $service = Mockery::mock(RepositoryService::class);
+    $service->shouldReceive('canAccess')->twice()->andReturn(true);
+    $service->shouldReceive('register')->once()->with('vendor--foo-bar', Mockery::any())->andReturn(true);
+    $service->shouldReceive('register')->once()->with('vendor-foo--bar', Mockery::any())->andReturn(true);
+    $this->app->instance(RepositoryService::class, $service);
+
+    $this->artisan('add-repo', ['url' => 'git@github.com:vendor/foo-bar.git'])->assertExitCode(0);
+    $this->artisan('add-repo', ['url' => 'git@github.com:vendor-foo/bar.git'])->assertExitCode(0);
 });
 
 it('rejects a non ssh url', function () {

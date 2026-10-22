@@ -2,26 +2,37 @@
 
 namespace App\Services;
 
+use Symfony\Component\Process\Exception\ProcessTimedOutException;
 use Symfony\Component\Process\Process;
 
 class RepositoryService
 {
     public function canAccess(string $url): bool
     {
-        $process = new Process(['git', 'ls-remote', '--heads', $url]);
-        $process->setTimeout(120);
-
-        $process->run();
-
-        return $process->isSuccessful();
+        return $this->run(['git', 'ls-remote', '--heads', $url]);
     }
 
     public function register(string $name, string $url): bool
     {
-        $repository = json_encode(['type' => 'vcs', 'url' => $url, 'no-api' => true], JSON_UNESCAPED_SLASHES);
+        // The git driver has no dist archives, so Composer always clones over SSH (no HTTPS token needed).
+        $repository = json_encode(['type' => 'git', 'url' => $url], JSON_UNESCAPED_SLASHES);
 
-        $process = new Process(['composer', 'config', '--global', "repositories.{$name}", $repository]);
-        $process->run();
+        return $this->run(['composer', 'config', '--global', "repositories.{$name}", $repository]);
+    }
+
+    /**
+     * @param  list<string>  $command
+     */
+    private function run(array $command): bool
+    {
+        $process = new Process($command);
+        $process->setTimeout(120);
+
+        try {
+            $process->run();
+        } catch (ProcessTimedOutException) {
+            return false;
+        }
 
         return $process->isSuccessful();
     }

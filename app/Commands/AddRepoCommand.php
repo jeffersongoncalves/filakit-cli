@@ -22,13 +22,16 @@ class AddRepoCommand extends Command
             required: true,
         );
 
-        if (! preg_match('#^(?:ssh://)?git@([^:/]+)[:/]([^/]+/[^/]+?)(?:\.git)?/?$#', $url, $matches)) {
+        // ssh://user@host[:port]/path or scp-style user@host:path
+        if (! preg_match('#^(?:ssh://([^@/]+)@([^:/]+)(?::\d+)?/|([^@/:]+)@([^:/]+):)(.+/[^/]+?)(?:\.git)?/?$#', $url, $matches)) {
             $this->components->error('Invalid SSH URL. Expected format: git@github.com:vendor/repo.git');
 
             return self::FAILURE;
         }
 
-        [, $host, $package] = $matches;
+        $user = $matches[1] ?: $matches[3];
+        $host = $matches[2] ?: $matches[4];
+        $package = implode('/', array_slice(explode('/', $matches[5]), -2));
 
         $this->components->task("Checking SSH access to <comment>{$url}</comment>", function () use ($repositoryService, $url, &$canAccess): bool {
             return $canAccess = $repositoryService->canAccess($url);
@@ -39,12 +42,12 @@ class AddRepoCommand extends Command
             $this->line('  Set up an SSH key and try again:');
             $this->line('    1. <comment>ssh-keygen -t ed25519 -C "you@example.com"</comment>');
             $this->line("    2. Add <comment>~/.ssh/id_ed25519.pub</comment> to your {$host} account (GitHub: https://github.com/settings/keys)");
-            $this->line("    3. Test it: <comment>ssh -T git@{$host}</comment>");
+            $this->line("    3. Test it: <comment>ssh -T {$user}@{$host}</comment>");
 
             return self::FAILURE;
         }
 
-        if (! $repositoryService->register(str_replace('/', '-', $package), $url)) {
+        if (! $repositoryService->register(str_replace('/', '--', $package), $url)) {
             $this->components->error('Failed to register the repository in the global Composer config.');
 
             return self::FAILURE;
