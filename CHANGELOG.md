@@ -2,6 +2,25 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.2.0] - 2026-11-04
+
+### Bug Fixes
+
+- Pin PHP floor to 8.3 for Laravel Zero 13
+
+### Dependencies
+
+- **deps:** Bump stefanzweifel/git-auto-commit-action (#19)
+- **deps:** Bump the composer-deps group with 6 updates
+
+### Miscellaneous Tasks
+
+- **deps-dev:** Bump league/flysystem from 3.31.0 to 3.36.0
+
+### Other
+
+- Auto-assign issues and pull requests
+
 ## [1.1.1] - 2026-10-22
 
 ### Bug Fixes
