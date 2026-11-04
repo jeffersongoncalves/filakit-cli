@@ -12,7 +12,7 @@
         }
     ],
     "require": {
-        "php": "^8.2",
+        "php": "^8.3",
         "laravel/installer": "^5.0"
     },
     "require-dev": {
@@ -20,7 +20,7 @@
         "laravel-zero/framework": "^13.0",
         "laravel/pint": "^1.25",
         "mockery/mockery": "^1.6",
-        "pestphp/pest": "^5.3.4"
+        "pestphp/pest": "^4.1"
     },
     "autoload": {
         "psr-4": {
@@ -48,6 +48,9 @@
         "optimize-autoloader": true,
         "allow-plugins": {
             "pestphp/pest-plugin": true
+        },
+        "platform": {
+            "php": "8.3.0"
         }
     },
     "minimum-stability": "stable",

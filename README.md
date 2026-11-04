@@ -12,7 +12,7 @@
   <a href="https://github.com/jeffersongoncalves/filakit-cli/actions/workflows/tests.yml"><img src="https://github.com/jeffersongoncalves/filakit-cli/actions/workflows/tests.yml/badge.svg" alt="Tests" /></a>
   <a href="https://github.com/jeffersongoncalves/filakit-cli/actions/workflows/build.yml"><img src="https://github.com/jeffersongoncalves/filakit-cli/actions/workflows/build.yml/badge.svg" alt="Build" /></a>
   <a href="https://github.com/jeffersongoncalves/filakit-cli/releases/latest"><img src="https://img.shields.io/github/v/release/jeffersongoncalves/filakit-cli" alt="Latest Release" /></a>
-  <img src="https://img.shields.io/badge/php-%3E%3D8.2-8892BF" alt="PHP 8.2+" />
+  <img src="https://img.shields.io/badge/php-%3E%3D8.3-8892BF" alt="PHP 8.3+" />
   <a href="LICENSE"><img src="https://img.shields.io/github/license/jeffersongoncalves/filakit-cli" alt="License" /></a>
 </p>
 
@@ -20,7 +20,7 @@ CLI tool for scaffolding Laravel projects with **Filakit starter kits**. Select 
 
 ## Requirements
 
-- PHP >= 8.2
+- PHP >= 8.3
 - [Laravel Installer](https://laravel.com/docs/installation) (`composer global require laravel/installer`)
 
 ## Installation
