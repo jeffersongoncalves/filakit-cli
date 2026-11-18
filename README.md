@@ -127,6 +127,11 @@ filakit new my-app --kit=vendor/my-skeleton
 | MFA Kit v5 | `jeffersongoncalves/mfakitv5` |
 | FilaFlux Kit v5 | `jeffersongoncalves/filafluxkitv5` |
 | Editorial Theme Kit v5 | `jeffersongoncalves/editorialthemev5` |
+| LGPD Kit v5 | `jeffersongoncalves/lgpdkitv5` |
+| GDPR Kit v5 | `jeffersongoncalves/gdprkitv5` |
+| CCPA Kit v5 | `jeffersongoncalves/ccpakitv5` |
+| US Privacy Kit v5 | `jeffersongoncalves/usprivacykitv5` |
+| Quebec Kit v5 | `jeffersongoncalves/quebeckitv5` |
 
 ### Filament v4
 
@@ -142,6 +147,11 @@ filakit new my-app --kit=vendor/my-skeleton
 | Evolution Kit v4 | `jeffersongoncalves/evolutionkitv4` |
 | MFA Kit v4 | `jeffersongoncalves/mfakitv4` |
 | Editorial Theme Kit v4 | `jeffersongoncalves/editorialthemev4` |
+| LGPD Kit v4 | `jeffersongoncalves/lgpdkitv4` |
+| GDPR Kit v4 | `jeffersongoncalves/gdprkitv4` |
+| CCPA Kit v4 | `jeffersongoncalves/ccpakitv4` |
+| US Privacy Kit v4 | `jeffersongoncalves/usprivacykitv4` |
+| Quebec Kit v4 | `jeffersongoncalves/quebeckitv4` |
 
 ### Filament v3
 
@@ -155,6 +165,11 @@ filakit new my-app --kit=vendor/my-skeleton
 | Service Desk Kit v3 | `jeffersongoncalves/servicedeskkitv3` |
 | Help Desk Kit v3 | `jeffersongoncalves/helpdeskkitv3` |
 | Editorial Theme Kit v3 | `jeffersongoncalves/editorialthemev3` |
+| LGPD Kit v3 | `jeffersongoncalves/lgpdkitv3` |
+| GDPR Kit v3 | `jeffersongoncalves/gdprkitv3` |
+| CCPA Kit v3 | `jeffersongoncalves/ccpakitv3` |
+| US Privacy Kit v3 | `jeffersongoncalves/usprivacykitv3` |
+| Quebec Kit v3 | `jeffersongoncalves/quebeckitv3` |
 <!-- STARTERKITS:END -->
 
 ## How It Works

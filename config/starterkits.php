@@ -46,6 +46,26 @@ return [
         'package' => 'jeffersongoncalves/editorialthemev5',
     ],
     [
+        'title' => 'LGPD Kit v5',
+        'package' => 'jeffersongoncalves/lgpdkitv5',
+    ],
+    [
+        'title' => 'GDPR Kit v5',
+        'package' => 'jeffersongoncalves/gdprkitv5',
+    ],
+    [
+        'title' => 'CCPA Kit v5',
+        'package' => 'jeffersongoncalves/ccpakitv5',
+    ],
+    [
+        'title' => 'US Privacy Kit v5',
+        'package' => 'jeffersongoncalves/usprivacykitv5',
+    ],
+    [
+        'title' => 'Quebec Kit v5',
+        'package' => 'jeffersongoncalves/quebeckitv5',
+    ],
+    [
         'title' => 'Base Kit v4',
         'package' => 'filakitphp/basev4',
     ],
@@ -86,6 +106,26 @@ return [
         'package' => 'jeffersongoncalves/editorialthemev4',
     ],
     [
+        'title' => 'LGPD Kit v4',
+        'package' => 'jeffersongoncalves/lgpdkitv4',
+    ],
+    [
+        'title' => 'GDPR Kit v4',
+        'package' => 'jeffersongoncalves/gdprkitv4',
+    ],
+    [
+        'title' => 'CCPA Kit v4',
+        'package' => 'jeffersongoncalves/ccpakitv4',
+    ],
+    [
+        'title' => 'US Privacy Kit v4',
+        'package' => 'jeffersongoncalves/usprivacykitv4',
+    ],
+    [
+        'title' => 'Quebec Kit v4',
+        'package' => 'jeffersongoncalves/quebeckitv4',
+    ],
+    [
         'title' => 'Base Kit v3',
         'package' => 'filakitphp/basev3',
     ],
@@ -116,5 +156,25 @@ return [
     [
         'title' => 'Editorial Theme Kit v3',
         'package' => 'jeffersongoncalves/editorialthemev3',
+    ],
+    [
+        'title' => 'LGPD Kit v3',
+        'package' => 'jeffersongoncalves/lgpdkitv3',
+    ],
+    [
+        'title' => 'GDPR Kit v3',
+        'package' => 'jeffersongoncalves/gdprkitv3',
+    ],
+    [
+        'title' => 'CCPA Kit v3',
+        'package' => 'jeffersongoncalves/ccpakitv3',
+    ],
+    [
+        'title' => 'US Privacy Kit v3',
+        'package' => 'jeffersongoncalves/usprivacykitv3',
+    ],
+    [
+        'title' => 'Quebec Kit v3',
+        'package' => 'jeffersongoncalves/quebeckitv3',
     ],
 ];
