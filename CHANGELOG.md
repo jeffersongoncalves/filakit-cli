@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.2.1] - 2026-11-18
+
+### CI/CD
+
+- Auto-merge dependabot github-actions minor/patch (#24)
+
+### Other
+
+- Update starter kits list from plugins.json
+
 ## [1.2.0] - 2026-11-04
 
 ### Bug Fixes
